@@ -49,21 +49,6 @@ android {
         buildConfigField "String", "DEVICE_TYPE", "\"android\""
     }
 
-    signingConfigs {
-        release {
-            Properties localProps = new Properties()
-            localProps.load(new FileInputStream(file('../local.properties')))
-            Properties keyProps = new Properties()
-            if (localProps['keystore.props.file'] != null) {
-                keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
-            }
-            storeFile keyProps["store"] != null ? file(keyProps["store"]) : null
-            keyAlias keyProps["alias"] ?: ""
-            storePassword keyProps["storePass"] ?: ""
-            keyPassword keyProps["pass"] ?: ""
-        }
-    }
-
     buildTypes {
         debug {
             versionNameSuffix " Debug"
@@ -73,7 +58,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), file('proguard-project.txt')
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
         }
 
         publicBeta.initWith(buildTypes.release)
